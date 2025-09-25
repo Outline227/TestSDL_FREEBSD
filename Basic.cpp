@@ -1,15 +1,18 @@
-#include "/usr/local/include/SDL2/SDL.h"
-#include "/usr/local/include/SDL2/SDL_ttf.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <stdbool.h>
 
 int main() {
     if (SDL_Init(SDL_INIT_VIDEO) || TTF_Init() == -1) return 1;
-    SDL_Window *win = SDL_CreateWindow("SDL2 Desktop", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_FULLSCREEN);
+    SDL_Window *win = SDL_CreateWindow("SDL2 Desktop",
+                                       SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                       640, 480, SDL_WINDOW_SHOWN);
     SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
     TTF_Font *font = TTF_OpenFont("/usr/local/share/fonts/dejavu/DejaVuSans.ttf", 24);
     bool running = true, flash = false;
     SDL_Event e;
+
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) running = false;
@@ -37,6 +40,7 @@ int main() {
         SDL_RenderPresent(ren);
         SDL_Delay(16);
     }
+
     TTF_CloseFont(font); SDL_DestroyRenderer(ren); SDL_DestroyWindow(win); TTF_Quit(); SDL_Quit();
     return 0;
 }
